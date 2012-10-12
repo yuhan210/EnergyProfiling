@@ -1,0 +1,15 @@
+1. The app starts from BatteryAnalysisActivity
+
+2. After clicking on the button on the UI, the activity calls the corresponding service.
+- For WiFi or GSM, I use AlarmManager to trigger its service periodically, once the service is called,
+  I'd acquire a wakelock to ensure the CPU is on and ask for data from the sensor. After I get a 
+  GSM or WiFi fingerprint, I release the wakelock.
+
+- For Accelerometer, it has 2 parameters, one is the percentage of duty cycling and the other one is the
+  sampling frequency (fastest, game, ui, or normal). The service is called every 60 seconds, once it is
+  called, I'd acquire a wakelock. Assuming it has a duty cycle of x percentage, I'd setup a Timertask which
+  gets triggered after (x * 0.01 * 60) seconds telling the accelerometer to stop working.
+
+- For GPS, it has 2 parameters, one determines how often we turn on the GPS sensor (sampling interval), and 
+  the other one decides how long the GPS operates once it is turned on (operation time). When the GPS is on,
+  it asks for a GPS fix every second (it's not a parameter).
