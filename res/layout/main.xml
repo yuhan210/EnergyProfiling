@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/scroll" android:layout_width="fill_parent"
+  android:layout_height="wrap_content">
+
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Sensor" />
+    <RadioGroup
+  		 android:id="@+id/sensorgroup"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:orientation="horizontal" 
+		 android:text="Radio Group" >
+		<RadioButton android:id="@+id/WiFiButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="WiFi"
+			android:layout_weight="1"
+			android:checked="true" />
+		<RadioButton android:id="@+id/GSMButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="GSM" />
+		<RadioButton android:id="@+id/GPSButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="GPS" />
+		<RadioButton android:id="@+id/AccelButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Accel" />
+    </RadioGroup>
+ 		
+    <RelativeLayout 
+       	xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:orientation="horizontal" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="fill_parent" >
+        
+    <TextView
+        android:id="@+id/accelDutyCycleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="Accelerometer duty cycle(%)  " />
+    
+    <EditText
+        android:id="@+id/dutyCycleEditText"
+         android:layout_toRightOf="@id/accelDutyCycleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="100" />
+     </RelativeLayout>
+    
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Accel Sampling Freq" />
+    <RadioGroup
+  		 android:id="@+id/accelFreqGroup"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:orientation="horizontal" 
+		 android:text="Sampling Freq">
+		
+		<RadioButton android:id="@+id/fast"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Fast"
+			android:layout_weight="1"
+			android:checked="true" />
+		<RadioButton android:id="@+id/game"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Game" />
+		<RadioButton android:id="@+id/ui"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="UI" />
+		<RadioButton android:id="@+id/normal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="Normal" />
+    </RadioGroup>
+    
+	<TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Radio(WiFi and GSM)" />
+	<RelativeLayout 
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:orientation="horizontal" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="fill_parent">
+
+	<TextView
+        android:id="@+id/samplingIntervalText"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+ 	    android:layout_alignParentLeft="true" 
+        android:text="Sampling interval(seconds)  " />
+    <EditText
+        android:id="@+id/radioSamplingInterval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/samplingIntervalText"
+        android:inputType="number"
+        android:hint="10" />
+    
+    </RelativeLayout>
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+ 	    android:layout_alignParentLeft="true" 
+        android:text="GPS " />
+    
+  
+ 
+    <RelativeLayout 
+        xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:orientation="horizontal" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="fill_parent" >
+
+	  <TextView
+         android:id="@+id/gpsOperationText"
+        android:layout_width="wrap_content"
+         android:layout_height="40dp"
+ 	    android:layout_alignParentLeft="true" 
+        android:text="Operate Time(seconds)  " />
+    <EditText
+        android:id="@+id/gpsOperateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/gpsOperationText"
+        android:inputType="number"
+        android:hint="30"
+         />
+         
+    </RelativeLayout>
+     
+    <RelativeLayout 
+        xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:orientation="horizontal" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="fill_parent">
+    
+	<TextView
+        android:id="@+id/gpsSamplingText"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+ 	    android:layout_alignParentLeft="true" 
+        android:text="Sampling interval(seconds)  " />
+    <EditText
+        android:id="@+id/gpsSamplingInterval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/gpsSamplingText"
+        android:inputType="number"
+        android:hint="50" /> 
+    </RelativeLayout>
+    
+    <RelativeLayout 
+       xmlns:android="http://schemas.android.com/apk/res/android"
+       android:orientation="horizontal" 
+       android:layout_height="wrap_content" 
+       android:layout_width="fill_parent">
+    
+	<ImageButton
+    	android:id="@+id/buttonOK"
+    	android:layout_width="50dp"
+    	android:layout_height="wrap_content"
+    	android:src="@drawable/ic_mark" />
+   
+
+    </RelativeLayout>
+        
+</LinearLayout>
+</ScrollView>
