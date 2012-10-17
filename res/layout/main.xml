@@ -13,36 +13,75 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="Sensor" />
+     <RelativeLayout 
+       	xmlns:android="http://schemas.android.com/apk/res/android"
+    	android:orientation="horizontal" 
+    	android:layout_height="fill_parent" 
+    	android:layout_width="fill_parent" >
+        
     <RadioGroup
   		 android:id="@+id/sensorgroup"
 		 android:layout_width="fill_parent"
 		 android:layout_height="wrap_content"
-		 android:orientation="horizontal" 
 		 android:text="Radio Group" >
+		 
 		<RadioButton android:id="@+id/WiFiButton"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="WiFi"
 			android:layout_weight="1"
 			android:checked="true" />
+		
 		<RadioButton android:id="@+id/GSMButton"
+		    android:layout_toRightOf="@id/WiFiButton"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="GSM" />
+		
 		<RadioButton android:id="@+id/GPSButton"
+		    android:layout_below="@id/WiFiButton"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="GPS" />
 		<RadioButton android:id="@+id/AccelButton"
+		    android:layout_below="@id/WiFiButton"
+		    android:layout_toRightOf="@id/GPSButton"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:text="Accel" />
+		<RadioButton android:id="@+id/GPSNoDutyCycleButton"
+		    android:layout_below="@id/WiFiButton"
+		    android:layout_toRightOf="@id/AccelButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="GPS w/o duty cycle" />
+		
+		<RadioButton android:id="@+id/NWLocGPSButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="NWLoc" />
+		<RadioButton android:id="@+id/NWLocNoDutyCycleButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="NWLoc w/o duty cycle" />
+		
     </RadioGroup>
- 		
+ 		  </RelativeLayout>
+ 		        
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Accelerometer" />
+    
     <RelativeLayout 
        	xmlns:android="http://schemas.android.com/apk/res/android"
     	android:orientation="horizontal" 
@@ -67,7 +106,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Accel Sampling Freq" />
+        android:text="Accelerometer Sampling Freq" />
     <RadioGroup
   		 android:id="@+id/accelFreqGroup"
 		 android:layout_width="fill_parent"
@@ -101,6 +140,7 @@
 	<TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="Radio(WiFi and GSM)" />
 	<RelativeLayout 
 	    xmlns:android="http://schemas.android.com/apk/res/android"
@@ -127,7 +167,8 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
  	    android:layout_alignParentLeft="true" 
-        android:text="GPS " />
+ 	    android:textStyle="bold"
+        android:text="GPS and NWLoc" />
     
   
  
@@ -149,7 +190,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/gpsOperationText"
         android:inputType="number"
-        android:hint="30"
+        android:hint="10"
          />
          
     </RelativeLayout>

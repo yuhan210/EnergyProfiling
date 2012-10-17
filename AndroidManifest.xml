@@ -41,7 +41,9 @@
       	 <service android:enabled="true" android:name=".Accel" />
       	 <service android:enabled="true" android:name=".GPS" />
          <service android:enabled="true" android:name=".BatteryService" />
-         
+         <service android:enabled="true" android:name=".GPSWithoutDutyCycling" />
+         <service android:enabled="true" android:name=".NetworkLocWithoutDutyCycling" />
+         <service android:enabled="true" android:name=".NetworkLoc" />
    </application>
  
 </manifest>

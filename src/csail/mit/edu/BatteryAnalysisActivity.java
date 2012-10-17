@@ -37,12 +37,14 @@ public class BatteryAnalysisActivity extends Activity{
     private EditText gpsSamplingIntervalText;
     private ImageButton launchButton;
     
-    private boolean[] sensorEnable = new boolean[4]; // wifi, gsm, gps, accel
+    private boolean[] sensorEnable = new boolean[7]; // wifi, gsm, gps, accel, GPS w/o duty cycling, NWLoc, NWLoc w/o duty cycling
     private int accelDutyCycle;
     private boolean[] accelSamplingFreq = new boolean[4];
     private int radioSamplingInterval;
     private int GPSOpTime;
     private int GPSSamplingInterval;
+    
+
     
 	/**private ServiceConnection mConnection = new ServiceConnection() 
 	{
@@ -71,7 +73,7 @@ public class BatteryAnalysisActivity extends Activity{
 	    accelSamplingFreq[0] = true; // fastest
  	    accelDutyCycle = 100; // %
 	    radioSamplingInterval = 10;
-	    GPSOpTime = 30;
+	    GPSOpTime = 10;
 	    GPSSamplingInterval = 50;
 	    
 	}
@@ -134,8 +136,10 @@ public class BatteryAnalysisActivity extends Activity{
 	        				 // starts GPS every GPSSamplingInterval secs, and works for GPSOpTime secs with sampling rate 1Hz.
 	        				 GPSOpTime = Integer.parseInt(gpsOperationText.getText().toString());
 	        				 GPSSamplingInterval = Integer.parseInt(gpsSamplingIntervalText.getText().toString());
+	        				 Toast.makeText(Global.context, "GPS started, sampling interval:" + GPSSamplingInterval + "sec(s) Operation Time:" + GPSOpTime +"sec(s)" , Toast.LENGTH_SHORT).show();	
+		            			
 	        				 if(GPSOpTime > GPSSamplingInterval){
-	        					 GPSOpTime = GPSSamplingInterval;
+	        					 GPSOpTime = GPSSamplingInterval - 1;
 	        				 }
 	        				 Intent GPSIntent = new Intent(this, GPS.class);
 	            			 GPSIntent.putExtra("Operate Time", GPSOpTime);
@@ -166,6 +170,42 @@ public class BatteryAnalysisActivity extends Activity{
 	            			
 	        				
 	        				break;
+	        			case 4: // gps without duty cycling
+	        				GPSSamplingInterval = Integer.parseInt(gpsSamplingIntervalText.getText().toString());
+	        				Toast.makeText(Global.context, "GPS without duty cycling started, sampling interval:" + GPSSamplingInterval + "sec(s)", Toast.LENGTH_SHORT).show();	
+		            		
+	        				Intent GPSNoDutyCycleIntent = new Intent(this, GPSWithoutDutyCycling.class);
+	        				GPSNoDutyCycleIntent.putExtra("Sampling Interval", GPSSamplingInterval);
+	            			startService(GPSNoDutyCycleIntent);
+	        				
+	        				break;
+	        			case 5: //NWLoc with duty cycling
+	        				 GPSOpTime = Integer.parseInt(gpsOperationText.getText().toString());
+	        				 GPSSamplingInterval = Integer.parseInt(gpsSamplingIntervalText.getText().toString());
+	        				 Toast.makeText(Global.context, "NWLocGPS started, sampling interval:" + GPSSamplingInterval + "sec(s) Operation Time:" + GPSOpTime +"sec(s)" , Toast.LENGTH_SHORT).show();	
+		            			
+	        				 if(GPSOpTime > GPSSamplingInterval){
+	        					 GPSOpTime = GPSSamplingInterval - 1;
+	        				 }
+	        				 Intent NWLocGPSIntent = new Intent(this, NetworkLoc.class);
+	        				 NWLocGPSIntent.putExtra("Operate Time", GPSOpTime);
+	            			 
+	            	         PendingIntent NWLocGPSPI = PendingIntent.getService(this, 0, NWLocGPSIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+	            	         AlarmManager NWLocGPSAM = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE); 
+	            	         NWLocGPSAM.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), GPSSamplingInterval  * 1000, NWLocGPSPI);
+	 	            	     break;
+	        			case 6: // NWLoc without duty cycling
+	        				
+	        				GPSSamplingInterval = Integer.parseInt(gpsSamplingIntervalText.getText().toString());
+	        				Toast.makeText(Global.context, "NWLoc without duty cycling started, sampling interval:" + GPSSamplingInterval + "sec(s)", Toast.LENGTH_SHORT).show();	
+		            		
+	        				Intent NWLocNoDutyCycleIntent = new Intent(this, NetworkLocWithoutDutyCycling.class);
+	        				NWLocNoDutyCycleIntent.putExtra("Sampling Interval", GPSSamplingInterval);
+	            			startService(NWLocNoDutyCycleIntent);
+	        				
+	        				
+	        				break;
+	            			
 	        		}
 	        		break;
 	        	}
@@ -175,25 +215,16 @@ public class BatteryAnalysisActivity extends Activity{
 	}
 	 public void CancelAlarm()
 	 {
-	     Intent intent = new Intent(this, WiFi.class);
-	     PendingIntent sender = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+	     
 	     AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-	     alarmManager.cancel(sender);
+	     alarmManager.cancel(PendingIntent.getService(this, 0, new Intent(this, WiFi.class), PendingIntent.FLAG_UPDATE_CURRENT));     
+	     alarmManager.cancel(PendingIntent.getService(this, 0, new Intent(this, GSM.class), PendingIntent.FLAG_UPDATE_CURRENT));  
+	     alarmManager.cancel(PendingIntent.getService(this, 0, new Intent(this, Accel.class), PendingIntent.FLAG_UPDATE_CURRENT));
+	     alarmManager.cancel(PendingIntent.getService(this, 0, new Intent(this, GPS.class), PendingIntent.FLAG_UPDATE_CURRENT));
+	     stopService(new Intent(this, GPSWithoutDutyCycling.class));
+	     alarmManager.cancel(PendingIntent.getService(this, 0, new Intent(this, NetworkLoc.class), PendingIntent.FLAG_UPDATE_CURRENT));
+	     stopService(new Intent(this, NetworkLocWithoutDutyCycling.class));
 	     
-	     intent = new Intent(this, GSM.class);
-	     sender = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-	     alarmManager.cancel(sender);
-	     
-	     intent = new Intent(this, Accel.class);
-	     sender = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-	     alarmManager.cancel(sender);
-	     
-	     
-	    
-	     intent = new Intent(this, GPS.class);
-	     sender = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-	     alarmManager.cancel(sender);
-	    
 	    	     
 	 }
 	private OnClickListener launchListener = new OnClickListener (){
@@ -245,8 +276,17 @@ public class BatteryAnalysisActivity extends Activity{
                 break;
             case R.id.AccelButton:
             	sensorEnable[3] = true; 
-                break;      
-			 }
+                break;
+            case R.id.GPSNoDutyCycleButton:
+            	sensorEnable[4] = true;
+            	break;
+            case R.id.NWLocGPSButton:
+            	sensorEnable[5] = true;
+            	break;
+            case R.id.NWLocNoDutyCycleButton:
+            	sensorEnable[6] = true;
+            	break;
+			}
 	         	     
 	    }
 	 };

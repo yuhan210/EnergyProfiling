@@ -3,7 +3,6 @@ package csail.mit.edu;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import csail.mit.edu.Accel.AccelTask;
 
 import android.app.Service;
 import android.content.Context;
@@ -46,13 +45,15 @@ public class GPS extends Service{
     	 Bundle extras = intent.getExtras();
     	 	 
  		 int opTime = extras.getInt("Operate Time");
+ 		 System.out.println(opTime);
 		 pm = (PowerManager) Global.context.getSystemService(Context.POWER_SERVICE);
 		 wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
          wl.acquire();
          
          this.locationManager = (LocationManager)Global.context.getSystemService(Context.LOCATION_SERVICE);
- 		 this.locationListener = new GPSLocationListener();	 
- 		 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1 * 1000, 0, locationListener);
+ 		 this.locationListener = new GPSLocationListener();	
+ 		 
+ 		 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
  		  
  		 timer = new Timer();
  		 timer.schedule(new GPSTask(), opTime * 1000); 
